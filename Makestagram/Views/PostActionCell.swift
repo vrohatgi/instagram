@@ -20,12 +20,14 @@ class PostActionCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var likeLabel: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
     
     // MARK: - IBActions
     
-    @IBAction func heartButton(_ sender: UIButton) {
+    @IBAction func likeButtonIsTapped(_ sender: UIButton) {
         delegate?.didTapLikeButton(sender, on: self)
     }
+    
     
     static let height: CGFloat = 46
 }

@@ -93,14 +93,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVm-x3-gdI">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVm-x3-gdI" userLabel="heartButton">
                                                     <rect key="frame" x="2" y="0.0" width="45.5" height="45.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="eVm-x3-gdI" secondAttribute="height" multiplier="1:1" id="Leb-i2-enO"/>
                                                     </constraints>
                                                     <state key="normal" image="btn_heart_black_outline"/>
                                                     <connections>
-                                                        <action selector="heartButton:" destination="Uqf-EO-dXd" eventType="touchUpInside" id="8m5-io-XN5"/>
+                                                        <action selector="likeButtonIsTapped:" destination="Uqf-EO-dXd" eventType="touchUpInside" id="FAa-4u-GBG"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fn-31-7Nu">
@@ -139,6 +139,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="likeButton" destination="eVm-x3-gdI" id="AUP-fR-tAJ"/>
                                             <outlet property="likeLabel" destination="7fn-31-7Nu" id="rCJ-sA-pUg"/>
                                             <outlet property="timeLabel" destination="bjR-q1-013" id="NhD-jG-7bv"/>
                                         </connections>

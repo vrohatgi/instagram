@@ -71,6 +71,7 @@ extension HomeViewController: UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostActionCell") as! PostActionCell
             cell.delegate = self
+            
             configureCell(cell, with: post)
             
             return cell
@@ -86,9 +87,9 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func configureCell(_ cell: PostActionCell, with post: Post) {
-//        cell.timeLabel.text = timestampFormatter.string(from: post.creationDate)
-//        //cell.heartButton.isSelected = post.isLiked
-//        cell.likeLabel.text = "\(post.likeCount) likes"
+        cell.timeLabel.text =  timestampFormatter.string(from: post.creationDate)
+        cell.likeButton.isSelected = post.isLiked
+        cell.likeLabel.text = "\(post.likeCount) likes"
     }
 }
 
