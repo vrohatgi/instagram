@@ -86,9 +86,9 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func configureCell(_ cell: PostActionCell, with post: Post) {
-        cell.timeLabel.text = timestampFormatter.string(from: post.creationDate)
-        cell.heartButton.isSelected = post.isLiked
-        cell.likeLabel.text = "\(post.likeCount) likes"
+//        cell.timeLabel.text = timestampFormatter.string(from: post.creationDate)
+//        //cell.heartButton.isSelected = post.isLiked
+//        cell.likeLabel.text = "\(post.likeCount) likes"
     }
 }
 
