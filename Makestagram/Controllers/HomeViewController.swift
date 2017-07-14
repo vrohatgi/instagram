@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     var posts = [Post]()
+    let refreshControl = UIRefreshControl()
     
     // MARK: - Subviews
     @IBOutlet weak var tableView: UITableView!
@@ -23,9 +24,17 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         configureTableView()
-        
-        UserService.posts(for: User.current) { (posts) in
+        reloadTimeline()
+    }
+    
+    func reloadTimeline() {
+        UserService.timeline { (posts) in
             self.posts = posts
+            
+            if self.refreshControl.isRefreshing {
+                self.refreshControl.endRefreshing()
+            }
+            
             self.tableView.reloadData()
         }
     }
@@ -35,6 +44,9 @@ class HomeViewController: UIViewController {
         tableView.tableFooterView = UIView()
         // remove separators from cells
         tableView.separatorStyle = .none
+        // add pull to refresh
+        refreshControl.addTarget(self, action: #selector(reloadTimeline), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     let timestampFormatter: DateFormatter = {
@@ -57,10 +69,9 @@ extension HomeViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostHeaderCell") as! PostHeaderCell
-            cell.usernameLabel.text = User.current.username
+            cell.usernameLabel.text = post.poster.username
             
             return cell
-            
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostImageCell") as! PostImageCell
             let imageURL = URL(string: post.imageURL)
@@ -116,6 +127,37 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController: PostActionCellDelegate {
     func didTapLikeButton(_ likeButton: UIButton, on cell: PostActionCell) {
-        print("did tap like button")
+        // 1
+        guard let indexPath = tableView.indexPath(for: cell)
+            else { return }
+        
+        // 2
+        likeButton.isUserInteractionEnabled = false
+        // 3
+        let post = posts[indexPath.section]
+        
+        // 4
+        LikeService.setIsLiked(!post.isLiked, for: post) { (success) in
+            // 5
+            defer {
+                likeButton.isUserInteractionEnabled = true
+            }
+            
+            // 6
+            guard success else { return }
+            
+            // 7
+            post.likeCount += !post.isLiked ? 1 : -1
+            post.isLiked = !post.isLiked
+            
+            // 8
+            guard let cell = self.tableView.cellForRow(at: indexPath) as? PostActionCell
+                else { return }
+            
+            // 9
+            DispatchQueue.main.async {
+                self.configureCell(cell, with: post)
+            }
+        }
     }
 }
